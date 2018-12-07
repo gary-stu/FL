@@ -3,7 +3,6 @@
 ## Introduction
 
 This script was created as a support to a board game.
-
 The rules are the following:
 
 - You start at spot 1
@@ -14,8 +13,7 @@ The rules are the following:
 ## Prerequisites
 
 Obviously, you need Python.
-
-You also need mpv accessible through your PATH, but Windows and OSX binaries are packaged with the release in case you don't have it installed
+You also need mpv accessible through your PATH, but Windows and OSX binaries are packaged with the release in case you don't have it installed.
 
 ## Installing
 
@@ -24,7 +22,7 @@ You also need mpv accessible through your PATH, but Windows and OSX binaries are
 ```
 	self.video_path = r'.'
 	self.interval_path = r'Intervals'
-	self.interval_length = 1
+	self.interval_length = 10
 	self.fullscreen = '-fs'
 	self.output_log = False
 ```
@@ -43,7 +41,6 @@ You also need mpv accessible through your PATH, but Windows and OSX binaries are
 ## How to play
 
 If your OS allows you to run python scripts from clicking them, you can do that.
-
 Else, you'll have to start the script from your terminal (or cmd)
 
 On Linux and OSX (note that you can replace python by python3):
