@@ -14,7 +14,7 @@ class FL:
 		# both path must start with a r: r'', r'Intervals' etc...
 		self.video_path = r'.' 		# path to videos 1.mp4 to 100.mp4 (r'' and r'.' means same directory as python file)
 		self.interval_path = r'Intervals' # path to interval pics/webms/musics or whatever
-		self.interval_length = 1 	# number of seconds of interval
+		self.interval_length = 10 	# number of seconds of interval
 		self.fullscreen = '' 		# must be '-fs' (in fullscreen) or '' (not)
 		self.output_log = False 	# Do you want to output logfile even without errors? 
 		
