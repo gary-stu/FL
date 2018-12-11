@@ -12,10 +12,10 @@ class FL:
 		# Set parameters here
 		
 		# both path must start with a r: r'', r'Intervals' etc...
-		self.video_path = r'.' 		# path to videos 1.mp4 to 100.mp4 (r'' and r'.' means same directory as python file)
+		self.video_path = r'' 		# path to videos 1.mp4 to 100.mp4 (r'' and r'.' means same directory as python file)
 		self.interval_path = r'Intervals' # path to interval pics/webms/musics or whatever
 		self.interval_length = 10 	# number of seconds of interval
-		self.fullscreen = '' 		# must be '-fs' (in fullscreen) or '' (not)
+		self.fullscreen = True 		# must be True or False
 		self.output_log = False 	# Do you want to output logfile even without errors? 
 		
 		# accepted filetypes for intervals
@@ -106,15 +106,17 @@ class FL:
 			myOs = platform.system()
 			if myOs == 'Windows':
 				self.info('    mpv not installed, trying to revert to static binary')
-				self.mpv = 'exes/mpv_win.exe '
+				self.mpv = 'binaries/Windows/mpv.exe '
 			elif myOs == 'Darwin':
 				self.info('    mpv not installed, trying to revert to static binary')
-				self.mpv = 'exes/mpv_osx '
+				self.mpv = 'binaries/OSX/mpv '
 			elif myOs == 'Linux':
 				self.info('    No static binary available for Linux')
 				self.info('    Please install mpv through your package manager')
 				self.info('    or through mpv-build') 
 				checks = False
+			
+			if self.fullscreen: mpv += '-fs '
 			
 		return checks
 		
@@ -122,13 +124,13 @@ class FL:
 	def video(self, nb):
 		file = path.join(self.video_path, str(nb) + '.mp4')
 		self.info('Playing "' + file + '"')
-		system(self.mpv + self.fullscreen + ' -msg-level=all=no "' + file + '"')
+		system(self.mpv + ' -msg-level=all=no "' + file + '"')
 	
 	# Plays a random interval in self.intervals
 	def interval(self):
 		file = choice(self.intervals)
 		self.info('Interval : "' + file + '"')
-		p = Popen(self.mpv + self.fullscreen + ' -msg-level=all=no -loop "' + file + '"', shell=True)
+		p = Popen(self.mpv + ' -msg-level=all=no -loop "' + file + '"', shell=True)
 		sleep(self.interval_length)
 		p.terminate()
 	

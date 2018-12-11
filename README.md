@@ -24,13 +24,13 @@ You also need mpv accessible through your PATH, but Windows and OSX binaries are
 	self.video_path = r'.'
 	self.interval_path = r'Intervals'
 	self.interval_length = 10
-	self.fullscreen = '-fs'
+	self.fullscreen = True
 	self.output_log = False
 ```
    - self.video_path: the path to your "rounds", or "spot" video. They number from 1.mp4 to 100.mp4
    - self.interval_path: Path to some files to play in between the rounds. Path will be explored recursively, so all subfolders in this path will be explored as well
    - self.interval_length: Length, in seconds, between the rounds
-   - self.fullscreen: if you want to start mpv in fullscreen, put '-fs', else put ''
+   - self.fullscreen: if you want to start mpv in fullscreen, set it to True. False otherwise.
    - self.output_log: Do you want to create a verbose log, even if there are no errors? True for yes, False for no
 3. You may also edit, in FL.py, self.filetypes.
 ```
@@ -55,7 +55,7 @@ On Windows :
 	cd (your folder with FL.py in it)
 	py FL.py
 ```
-But a double click on file should be enough for windows. You can then set up self.output_log to True if you want to see what's going on.
+But a double click on the python file should be enough for windows and OSX. You can then set up self.output_log to True if you want to see what's going on then.
 
 ## License
 
