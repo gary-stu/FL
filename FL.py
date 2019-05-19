@@ -58,9 +58,9 @@ class FL:
 		checks = True
 		
 		self.info('Checking if "self.fullscreen" has correct value')
-		if self.fullscreen != '' and self.fullscreen != '-fs':
-			self.info('"fullscreen" variable must either be "-fs" (fullscreen) or "" (windowed)')
-			self.info('		current : "' + self.fullscreen + '"')
+		if not isinstance(self.fullscreen, bool) or self.fullscreen is None:
+			self.info('"fullscreen" variable must either be True (fullscreen) or False (windowed)')
+			self.info('		current : "' + str(self.fullscreen) + '"')
 			checks = False
 		else:
 			self.info('    Done')
@@ -78,7 +78,7 @@ class FL:
 			checks = False
 		elif test != 100:
 			self.info('Not all videos were found in folder "' + self.video_path + '"')
-			self.info('		Number of videos with name format 1.mp4, 2.mp4, etc... found : ' + str(len(test)))
+			self.info('		Number of videos with name format 1.mp4, 2.mp4, etc... found : ' + str(test))
 			self.info('		Maybe rename files "1 - Start.mp4" (and 25, 50, 75, 100) to 1.mp4 etc...')
 			self.info('		Or check you have all the required files (1.mp4 to 100.mp4)')
 			checks = False
@@ -116,7 +116,7 @@ class FL:
 				self.info('    or through mpv-build') 
 				checks = False
 			
-			if self.fullscreen: mpv += '-fs '
+		if self.fullscreen: self.mpv += '-fs '
 			
 		return checks
 		
