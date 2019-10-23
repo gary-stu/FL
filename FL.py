@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import platform
 from datetime import datetime
-from os import walk, path, listdir, system, popen, rename, setsid, killpg
+import os
 from random import choice, randint, seed
 from subprocess import Popen
 from time import sleep
@@ -30,7 +30,7 @@ class FL:
 		self.logname = "fl_log0.txt"
 		self.myOs = platform.system()
 		nb = 0
-		while path.isfile(self.logname):
+		while os.path.isfile(self.logname):
 			nb += 1
 			self.logname = 'fl_log' + str(nb) + '.txt'
 
@@ -38,28 +38,28 @@ class FL:
 	# rename files from original file pool if necessary
 	def rename_files_if_necessary(self):
 		self.info("Renaming file if necessary")
-		if path.isfile(path.join(self.video_path, "1 - Start.mp4")):
-			rename(path.join(self.video_path, "1 - Start.mp4"), path.join(self.video_path, "1.mp4"))
+		if os.path.isfile(os.path.join(self.video_path, "1 - Start.mp4")):
+			os.rename(os.path.join(self.video_path, "1 - Start.mp4"), os.path.join(self.video_path, "1.mp4"))
 			self.info("    Renamed '1 - Start.mp4' in '1.mp4'")
-		if path.isfile(path.join(self.video_path, "25 - Checkpoint.mp4")):
-			rename(path.join(self.video_path, "25 - Checkpoint.mp4"), path.join(self.video_path, "25.mp4"))
+		if os.path.isfile(os.path.join(self.video_path, "25 - Checkpoint.mp4")):
+			os.rename(os.path.join(self.video_path, "25 - Checkpoint.mp4"), os.path.join(self.video_path, "25.mp4"))
 			self.info("    Renamed '25 - Checkpoint.mp4' in '25.mp4'")
-		if path.isfile(path.join(self.video_path, "50 - Checkpoint.mp4")):
-			rename(path.join(self.video_path, "50 - Checkpoint.mp4"), path.join(self.video_path, "50.mp4"))
+		if os.path.isfile(os.path.join(self.video_path, "50 - Checkpoint.mp4")):
+			os.rename(os.path.join(self.video_path, "50 - Checkpoint.mp4"), os.path.join(self.video_path, "50.mp4"))
 			self.info("    Renamed '50 - Checkpoint.mp4' in '50.mp4'")
-		if path.isfile(path.join(self.video_path, "75 - Checkpoint.mp4")):
-			rename(path.join(self.video_path, "75 - Checkpoint.mp4"), path.join(self.video_path, "75.mp4"))
+		if os.path.isfile(os.path.join(self.video_path, "75 - Checkpoint.mp4")):
+			os.rename(os.path.join(self.video_path, "75 - Checkpoint.mp4"), os.path.join(self.video_path, "75.mp4"))
 			self.info("    Renamed '75 - Checkpoint.mp4' in '75.mp4'")
-		if path.isfile(path.join(self.video_path, "100 - End.mp4")):
-			rename(path.join(self.video_path, "100 - End.mp4"), path.join(self.video_path, "100.mp4"))
+		if os.path.isfile(os.path.join(self.video_path, "100 - End.mp4")):
+			os.rename(os.path.join(self.video_path, "100 - End.mp4"), os.path.join(self.video_path, "100.mp4"))
 			self.info("    Renamed '100 - End.mp4' in '100.mp4'")
 		self.info("Done")
 
 	# Returns all files (with extension in defined self.filetypes) in a given folder and all its subfolders
 	def listdir_rec(self, pth):
-		for root, directories, filenames in walk(pth):
+		for root, directories, filenames in os.walk(pth):
 			for filename in filenames:
-				if filename.split('.')[-1] in self.filetypes: yield (path.join(root, filename))
+				if filename.split('.')[-1] in self.filetypes: yield (os.path.join(root, filename))
 
 	# Prints the message, and adds it to buffer (if we want to write logfile later)
 	def info(self, msg):
@@ -70,7 +70,7 @@ class FL:
 	def check(self):
 		checks = True
 		self.info('Checking if all 100 videos are found using "self.video_path"')
-		videos = listdir(self.video_path)
+		videos = os.listdir(self.video_path)
 		test = 0
 		for f in videos:
 			for i in range(1, 101):
@@ -105,7 +105,7 @@ class FL:
 			self.info('    Done')
 
 		self.info('Checking if mpv can be run')
-		test = popen('mpv --version').read()
+		test = os.popen('mpv --version').read()
 		if test.startswith('mpv'):
 			self.info('    mpv is installed')
 			self.mpv = 'mpv '
@@ -138,10 +138,10 @@ class FL:
 
 	# Plays video given the number
 	def video(self, nb):
-		file = path.join(self.video_path, str(nb) + '.mp4')
+		file = os.path.join(self.video_path, str(nb) + '.mp4')
 		self.info('Playing : "' + file + "'")
 		self.info("    " + self.mpv + '"' + file + '"')
-		system(self.mpv + '"' + file + '"')
+		os.system(self.mpv + '"' + file + '"')
 
 	# Plays a random interval in self.intervals
 	def interval(self):
@@ -157,9 +157,9 @@ class FL:
 			sleep(self.interval_length)
 			p.terminate()
 		else:
-			p = Popen(self.mpv + '-loop "' + file + '"', shell=True, preexec_fn=setsid)
+			p = Popen(self.mpv + '-loop "' + file + '"', shell=True, preexec_fn=os.setsid)
 			sleep(self.interval_length)
-			killpg(p.pid, SIGTERM)
+			os.killpg(p.pid, SIGTERM)
 
 	# Play the game
 	def start(self):
